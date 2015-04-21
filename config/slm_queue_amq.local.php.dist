@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * This is the config file for SlmQueueAmq. Just drop this file into your config/autoload folder (don't
+ * forget to remove the .dist extension from the file), and configure it as you want
+ */
+
+return [];
