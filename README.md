@@ -47,17 +47,9 @@ Copy the `slm_queue_amq.local.php.dist` file to your `config/autoload` folder, a
 
 ### Adding queues
 
-SlmQueueAmq provides an interface for a queue that implements `SlmQueue\Queue\QueueInterface` and provides in
-addition the following methods:
-
-* release(JobInterface $job, array $options = array()): when a job fails, you can add the job again to the queue
-by releasing it, so that it can have another chance to be executed.
-* bury(JobInterface $job, array $options = array()): when a job fails and that it has not been manually released, it
-is automatically buried.
-* kick($max): when this method is called, it will move a maximum of $max buried jobs back to the queue.
-
-A concrete class that implements this interface is included: `SlmQueueAmq\Queue\AmqQueue` and a factory is available to
-create the queue. Therefore, if you want to have a queue called "email", just add the following line in your
+A concrete class that implements the SlmQueue interface for Active MQ is included
+as `SlmQueueAmq\Queue\AmqQueue` and a factory is available to create the queue.
+Therefore, if you want to have a queue called "email", just add the following line in your
 `module.config.php` file:
 
 ```php
@@ -65,7 +57,7 @@ return array(
     'slm_queue' => array(
         'queue_manager' => array(
             'factories' => array(
-                'newsletter' => 'SlmQueueAmq\Factory\AmqQueueFactory'
+                'email' => 'SlmQueueAmq\Factory\AmqQueueFactory'
             )
         )
     )
@@ -81,19 +73,25 @@ This queue can therefore be pulled from the QueuePluginManager class.
 
 Valid options are:
 
-* priority: the lower the priority is, the sooner the job get popped from the queue (default to 1024)
-* delay: the delay in seconds before a job become available to be popped (default to 0 - no delay -)
-* ttr: in seconds, how much time a job can be reserved for (default to 60)
+* delay: the delay in milliseconds before a job become available to be popped (defaults to no delay)
+* period: in milliseconds, how much time a job can be running for before it's put back into the queue
+* repeat: the number of times the job should be repeatedly available (defaults to 1, no repeating jobs)
+* cron: a CRON string to schedule the job via cron
 
 Example:
 
 ```php
 $queue->push($job, array(
-    'priority' => 20,
-    'delay'    => 23,
-    'ttr'      => 50
+    'cron'     => '0 * * * *',
+    'delay'    => 1000,
+    'period'   => 1000,
+    'repeat'   => 9
 ));
 ```
+
+The above code will deliver the job 10 times, with a one second delay between
+each job, and this will happen every hour. See more explaination about the
+options in the [Active MQ manual](http://activemq.apache.org/nms/stomp-delayed-and-scheduled-message-feature.html).
 
 #### pop
 
@@ -101,45 +99,6 @@ Valid option is:
 
 * timeout: by default, when we ask for a job, it will block until a job is found (possibly forever if new jobs never
 come). If you set a timeout (in seconds), it will return after the timeout is expired, even if no jobs were found
-
-#### release
-
-Valid options are:
-
-* priority: the lower the priority is, the sooner the job get popped from the queue (default to 1024)
-* delay: the delay in seconds before a job become available to be popped (default to 0 - no delay -)
-
-#### bury
-
-Valid option is:
-
-* priority: the lower the priority is, the sooner the job get kicked
-
-
-### How to bury/release a job
-
-Amq offers a nice bury/kick/release mechanism, so that jobs that fail can have a second chance to be executed.
-SlmQueueAmq provides a nice way to easily bury/release a job. In fact, you just need to throw either
-the `SlmQueueAmq\Job\Exception\BuryableException` or `SlmQueueAmq\Job\Exception\ReleasableException` in
-the `execute` method of your job:
-
-```php
-use SlmQueue\Job\AbstractJob;
-use SlmQueueAmq\Job\Exception;
-
-class SimpleJob extends AbstractJob
-{
-    public function execute()
-    {
-        // Bury the job, with a priority of 10
-        throw new Exception\BuryableException(array('priority' => 10));
-
-        // Release the job, with a priority of 10 and delay of 5 seconds
-        throw new Exception\ReleasableException(array('priority' => 10, 'delay' => 5));
-    }
-}
-```
-
 
 ### Executing jobs
 
