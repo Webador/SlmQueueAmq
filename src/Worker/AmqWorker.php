@@ -25,9 +25,8 @@ class AmqWorker extends AbstractWorker
 
         /**
          * In Amq, if an error occurs (exception for instance), the job
-         * is automatically reinserted into the queue after a configured delay
-         * (the "visibility_timeout" option). If the job executed correctly, it
-         * must explicitly be removed
+         * is automatically reinserted into the queue. If the job executed
+         * correctly, it must explicitly be removed
          */
         try {
             $job->execute();
