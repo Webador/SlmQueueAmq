@@ -3,6 +3,7 @@
 namespace SlmQueueAmq\Queue;
 
 use SlmQueueAmq\Service\StompClientInterface;
+use SlmQueueAmq\Options\QueueOptions;
 use SlmQueue\Job\JobInterface;
 use SlmQueue\Job\JobPluginManager;
 use SlmQueue\Queue\AbstractQueue;
@@ -17,17 +18,23 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      */
     protected $stompClient;
 
+    /**
+     * @var QueueOptions
+     */
+    protected $options;
 
     /**
      * Constructor
      *
      * @param StompClientInterface $stompClient
+     * @param QueueOptions         $options
      * @param string               $name
      * @param JobPluginManager     $jobPluginManager
      */
-    public function __construct(StompClientInterface $stompClient, $name, JobPluginManager $jobPluginManager)
+    public function __construct(StompClientInterface $stompClient, QueueOptions $options, $name, JobPluginManager $jobPluginManager)
     {
         $this->stompClient = $stompClient;
+        $this->options     = $options;
         parent::__construct($name, $jobPluginManager);
     }
 
@@ -42,7 +49,7 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
         $this->ensureConnection();
 
         $this->stompClient->send(
-            $this->getName(),
+            $this->options->getDestination(),
             $this->serializeJob($job),
             [] // headers, when needded
         );
@@ -53,7 +60,7 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      */
     public function pop(array $options = array())
     {
-        $this->stompClient->subscribe($this->getName());
+        $this->stompClient->subscribe($this->options->getDestination());
         if (array_key_exists('timeout', $options)) {
             $this->stompClient->setReadTimeout((int) $options['timeout'], 0);
         }
