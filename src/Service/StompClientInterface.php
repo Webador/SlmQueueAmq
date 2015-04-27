@@ -15,5 +15,6 @@ interface StompClientInterface
     public function ack($message, $transactionId = null);
     public function disconnect();
     public function readFrame();
+    public function setReadTimeout($seconds, $milliseconds = 0);
     public function hasFrameToRead();
 }
