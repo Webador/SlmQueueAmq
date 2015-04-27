@@ -2,7 +2,9 @@
 
 namespace SlmQueueAmq\Queue;
 
-interface AmqQueueInterface
+use SlmQueue\Queue\QueueInterface;
+
+interface AmqQueueInterface extends QueueInterface
 {
 
 }
