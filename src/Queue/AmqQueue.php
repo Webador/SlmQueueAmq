@@ -64,7 +64,8 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
             return null;
         }
 
-        return $this->unserializeJob($frame->body, ['__id__' => $frame->headers['message-id']]);
+        $metadata = ['__id__' => $frame->headers['message-id'], 'heades' => $frame->headers];
+        return $this->unserializeJob($frame->body, $metadata);
     }
 
     /**
