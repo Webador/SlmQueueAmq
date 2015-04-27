@@ -5,4 +5,32 @@
  * forget to remove the .dist extension from the file), and configure it as you want
  */
 
-return [];
+return [
+    'slm_queue' => [
+        'queue_manager' => [
+            /**
+             * Define queue instances
+             */
+
+            /*
+            'factories' => [
+                'demo' => 'SlmQueueAmq\Factory\AmqQueueFactory'
+            ]
+            */
+        ],
+        'queues' => [
+            /**
+             * Define all queue options
+             */
+
+            /*
+            'demo' => [
+                'destination' => '/queue/demo'
+            ],
+            */
+        ],
+        'active_mq' => [
+            'broker_url' => '',
+        ]
+    ]
+];
