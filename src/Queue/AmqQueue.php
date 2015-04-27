@@ -39,6 +39,8 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
         $name = $this->getName();
         $json = $this->serializeJob($job);
 
+        $this->ensureConnection();
+
         $this->stompClient->send(
             $this->getName(),
             $this->serializeJob($job),
@@ -66,5 +68,10 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
     public function delete(JobInterface $job)
     {
 
+    public function ensureConnection()
+    {
+        if (!$this->stompClient->isConnected()) {
+            $this->stompClient->connect();
+        }
     }
 }
