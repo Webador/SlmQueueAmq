@@ -73,6 +73,8 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      */
     public function delete(JobInterface $job)
     {
+        $this->stompClient->ack($job->getId());
+    }
 
     public function ensureConnection()
     {
