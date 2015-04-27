@@ -53,6 +53,10 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      */
     public function pop(array $options = array())
     {
+        if (array_key_exists('timeout', $options)) {
+            $this->stompClient->setReadTimeout((int) $options['timeout'], 0);
+        }
+
         $frame = $this->stompClient->readFrame();
 
         if ($frame === false) {
