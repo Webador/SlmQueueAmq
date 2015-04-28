@@ -71,6 +71,8 @@ This queue can therefore be pulled from the QueuePluginManager class.
 
 #### push
 
+> Note these options are not implemented at this moment!
+
 Valid options are:
 
 * delay: the delay in milliseconds before a job become available to be popped (defaults to no delay)
