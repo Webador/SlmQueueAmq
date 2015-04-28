@@ -1,0 +1,49 @@
+{
+    "name": "slm/queue-amq",
+    "description": "Zend Framework 2 module that integrates with Active MQ queuing system",
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "keywords": [
+        "zf2",
+        "queue",
+        "job",
+        "amq",
+        "active-mq",
+        "activemq",
+        "stomp"
+    ],
+    "homepage": "https://github.com/juriansluiman/SlmQueueAmq",
+    "authors": [
+        {
+            "name": "Jurian Sluiman",
+            "email": "jurian@juriansluiman.nl",
+            "homepage": "http://juriansluiman.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zend-mvc": "~2.2",
+        "zendframework/zend-servicemanager": "~2.2",
+        "zendframework/zend-stdlib": "~2.2",
+        "slm/queue": "0.4.*",
+        "fusesource/stomp-php": "~2.1"
+    },
+    "require-dev": {
+        "zendframework/zendframework": "~2.2",
+        "squizlabs/php_codesniffer": "1.5.*",
+        "phpunit/phpunit": "~4.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-0": {
+            "SlmQueueAmq": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
