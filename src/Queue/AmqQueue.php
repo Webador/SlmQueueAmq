@@ -31,8 +31,12 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      * @param string               $name
      * @param JobPluginManager     $jobPluginManager
      */
-    public function __construct(StompClientInterface $stompClient, QueueOptions $options, $name, JobPluginManager $jobPluginManager)
-    {
+    public function __construct(
+        StompClientInterface $stompClient,
+        QueueOptions $options,
+        $name,
+        JobPluginManager $jobPluginManager
+    ) {
         $this->stompClient = $stompClient;
         $this->options     = $options;
         parent::__construct($name, $jobPluginManager);
