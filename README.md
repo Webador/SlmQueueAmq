@@ -2,8 +2,10 @@ SlmQueueAmq
 ==================
 
 [![Build Status](https://travis-ci.org/juriansluiman/SlmQueueAmq.png?branch=master)](https://travis-ci.org/juriansluiman/SlmQueueAmq)
+[![Code Coverage](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/slm/queue-amq/v/stable.png)](https://packagist.org/packages/slm/queue-amq)
 [![Latest Unstable Version](https://poser.pugx.org/slm/queue-amq/v/unstable.png)](https://packagist.org/packages/slm/queue-amq)
+[![Dependency Status](https://www.versioneye.com/user/projects/5541dd2e6f83444162000208/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5541dd2e6f83444162000208)
 
 
 Created by Jurian Sluiman
