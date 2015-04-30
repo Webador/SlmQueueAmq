@@ -5,6 +5,7 @@ SlmQueueAmq
 [![Code Coverage](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/slm/queue-amq/v/stable.png)](https://packagist.org/packages/slm/queue-amq)
 [![Latest Unstable Version](https://poser.pugx.org/slm/queue-amq/v/unstable.png)](https://packagist.org/packages/slm/queue-amq)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/5541dd2e6f83444162000208/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5541dd2e6f83444162000208)
 
 
