@@ -47,9 +47,6 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      */
     public function push(JobInterface $job, array $options = array())
     {
-        $name = $this->getName();
-        $json = $this->serializeJob($job);
-
         $this->ensureConnection();
 
         $this->stompClient->send(
