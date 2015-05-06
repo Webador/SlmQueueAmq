@@ -16,7 +16,7 @@ Requirements
 ------------
 * [Zend Framework 2](https://github.com/zendframework/zf2)
 * [SlmQueue](https://github.com/juriansluiman/SlmQueue)
-
+* [stomp-php](https://github.com/dejanb/stomp-php)
 
 Installation
 ------------
