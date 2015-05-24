@@ -81,6 +81,7 @@ Valid options are all constants on the `SlmQueueAmq\Queue\AmqQueueInterface` int
 * `AmqQueueInterface::PERIOD`: in milliseconds, how much time a job can be running for before it's put back into the queue
 * `AmqQueueInterface::REPEAT`: the number of times the job should be repeatedly available (defaults to 1, no repeating jobs)
 * `AmqQueueInterface::CRON`: a CRON string to schedule the job via cron
+* `AmqQueueInterface::PERSIST`: set to true to send a persistent message
 
 Example:
 
