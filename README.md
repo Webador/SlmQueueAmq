@@ -2,6 +2,7 @@ SlmQueueAmq
 ==================
 
 [![Build Status](https://travis-ci.org/juriansluiman/SlmQueueAmq.png?branch=master)](https://travis-ci.org/juriansluiman/SlmQueueAmq)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/juriansluiman/SlmQueueAmq/badge.svg)](https://travis-ci.org/juriansluiman/SlmQueueAmq)
 [![Code Coverage](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/juriansluiman/SlmQueueAmq/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/slm/queue-amq/v/stable)](https://packagist.org/packages/slm/queue-amq)
 [![Latest Unstable Version](https://poser.pugx.org/slm/queue-amq/v/unstable)](https://packagist.org/packages/slm/queue-amq)
