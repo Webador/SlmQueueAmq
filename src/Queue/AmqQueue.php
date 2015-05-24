@@ -53,8 +53,15 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
      */
     public function push(JobInterface $job, array $options = array())
     {
-        $allowed = [self::DELAY, self::PERIOD, self::REPEAT, self::CRON];
+        $allowed = [self::DELAY, self::PERIOD, self::REPEAT, self::CRON, self::PERSISTENT];
         $options = array_intersect_key($options, array_flip($allowed));
+
+        // ActiveMQ STOMP expects a string "true" for persistency
+        if (array_key_exists(self::PERSISTENT, $options) && true === (bool) $options[self::PERSISTENT]) {
+            $options[self::PERSISTENT] = 'true';
+        } elseif (array_key_exists(self::PERSISTENT, $options)) {
+            unset($options[self::PERSISTENT]);
+        }
 
         $this->ensureConnection();
 
