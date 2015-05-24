@@ -74,23 +74,23 @@ This queue can therefore be pulled from the QueuePluginManager class.
 
 #### push
 
-> Note these options are not implemented at this moment!
+Valid options are all constants on the `SlmQueueAmq\Queue\AmqQueueInterface` interface:
 
-Valid options are:
-
-* delay: the delay in milliseconds before a job become available to be popped (defaults to no delay)
-* period: in milliseconds, how much time a job can be running for before it's put back into the queue
-* repeat: the number of times the job should be repeatedly available (defaults to 1, no repeating jobs)
-* cron: a CRON string to schedule the job via cron
+* `AmqQueueInterface::DELAY`: the delay in milliseconds before a job become available to be popped (defaults to no delay)
+* `AmqQueueInterface::PERIOD`: in milliseconds, how much time a job can be running for before it's put back into the queue
+* `AmqQueueInterface::REPEAT`: the number of times the job should be repeatedly available (defaults to 1, no repeating jobs)
+* `AmqQueueInterface::CRON`: a CRON string to schedule the job via cron
 
 Example:
 
 ```php
+use SlmQueueAmq\Queue\AmqQueueInterface as Amq;
+
 $queue->push($job, array(
-    'cron'     => '0 * * * *',
-    'delay'    => 1000,
-    'period'   => 1000,
-    'repeat'   => 9
+    Amq::CRON     => '0 * * * *',
+    Amq::DELAY    => 1000,
+    Amq::PERIOD   => 1000,
+    Amq::REPEAT   => 9
 ));
 ```
 

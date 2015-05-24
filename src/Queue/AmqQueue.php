@@ -43,16 +43,25 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
     }
 
     /**
+     * Valid options are:
+     *      - self::REPEAT: the number of times this job must be repeated
+     *      - self::PERIOD: the time to run (in milliseconds) a job can run
+     *      - self::DELAY:  the time it takes (in milliseconds) before a job is available to a worker
+     *      - self::CRON:   a cron pattern to execute the job at given moments
+     *
      * {@inheritDoc}
      */
     public function push(JobInterface $job, array $options = array())
     {
+        $allowed = [self::DELAY, self::PERIOD, self::REPEAT, self::CRON];
+        $options = array_intersect_key($options, array_flip($allowed));
+
         $this->ensureConnection();
 
         $this->stompClient->send(
             $this->options->getDestination(),
             $this->serializeJob($job),
-            [] // headers, when needded
+            $options
         );
     }
 
