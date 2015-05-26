@@ -26,6 +26,10 @@ class AmqQueueFactory implements FactoryInterface
         $stompClient      = $parentLocator->get('SlmQueueAmq\Service\StompClient');
         $jobPluginManager = $parentLocator->get('SlmQueue\Job\JobPluginManager');
 
+        if (null !== $queueOptions->getClientId()) {
+            $stompClient->clientId = $queueOptions->getClientId();
+        }
+
         return new AmqQueue($stompClient, $queueOptions, $requestedName, $jobPluginManager);
     }
 }

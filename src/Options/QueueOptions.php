@@ -15,6 +15,11 @@ class QueueOptions extends AbstractOptions
     protected $destination;
 
     /**
+     * @var string
+     */
+    protected $clientId;
+
+    /**
      * Set the queue destionation
      *
      * @param  string $destination
@@ -33,5 +38,27 @@ class QueueOptions extends AbstractOptions
     public function getDestination()
     {
         return $this->destination;
+    }
+
+    /**
+     * Getter for clientId
+     *
+     * @return string|null
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * Setter for clientId
+     *
+     * @param  string $clientId Value to set
+     * @return self
+     */
+    public function setClientId($clientId)
+    {
+        $this->clientId = $clientId;
+        return $this;
     }
 }
