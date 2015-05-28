@@ -4,6 +4,7 @@ namespace SlmQueueAmq\Service;
 
 interface StompClientInterface
 {
+    /* Methods used from the Stomp client implementation */
     public function connect($username = '', $password = '');
     public function isConnected();
     public function send($destination, $message, $properties = [], $sync = null);
@@ -17,4 +18,7 @@ interface StompClientInterface
     public function readFrame();
     public function setReadTimeout($seconds, $milliseconds = 0);
     public function hasFrameToRead();
+
+    /* Custom method */
+    public function getSubscriptions();
 }

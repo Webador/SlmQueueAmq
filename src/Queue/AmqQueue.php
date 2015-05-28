@@ -79,7 +79,6 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
     public function pop(array $options = array())
     {
         $options += $this->options->getClientId() ? [self::PERSISTENT => true] : [];
-        $this->stompClient->subscribe($this->options->getDestination());
         if (array_key_exists('timeout', $options)) {
             $this->stompClient->setReadTimeout((int) $options['timeout'], 0);
         }
@@ -115,6 +114,16 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
     {
         if (!$this->stompClient->isConnected()) {
             $this->stompClient->connect();
+        }
+    }
+
+    public function subscribe()
+    {
+        $destination   = $this->options->getDestination();
+        $subscriptions = $this->stompClient->getSubscriptions();
+
+        if (!in_array($destination, $subscriptions)) {
+            $this->stompClient->subscribe($destination);
         }
     }
 }

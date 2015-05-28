@@ -61,5 +61,6 @@ class AmqWorker extends AbstractWorker
         }
 
         $queue->ensureConnection();
+        $queue->subscribe();
     }
 }
