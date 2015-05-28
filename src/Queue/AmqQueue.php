@@ -109,7 +109,11 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
 
     public function subscribe()
     {
-        // if not subscribed?
-        $this->stompClient->subscribe($this->options->getDestination());
+        $destination   = $this->options->getDestination();
+        $subscriptions = $this->stompClient->getSubscriptions();
+
+        if (!in_array($destination, $subscriptions)) {
+            $this->stompClient->subscribe($destination);
+        }
     }
 }
