@@ -78,21 +78,6 @@ class AmqQueueTest extends TestCase
         $this->queue->pop();
     }
 
-    public function testPopSubscribesToQueueFirst()
-    {
-        $this->options->setDestination('queue/foo');
-
-        $this->stompClient->expects($this->once())
-                          ->method('subscribe')
-                          ->with('queue/foo');
-
-        $this->stompClient->expects($this->once())
-                          ->method('readFrame')
-                          ->will($this->returnValue(false));
-
-        $this->queue->pop();
-    }
-
     public function testPopSetsTimeoutWhenAvailable()
     {
         $this->stompClient->expects($this->once())
