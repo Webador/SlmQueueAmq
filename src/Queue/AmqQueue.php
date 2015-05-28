@@ -7,6 +7,7 @@ use SlmQueueAmq\Options\QueueOptions;
 use SlmQueue\Job\JobInterface;
 use SlmQueue\Job\JobPluginManager;
 use SlmQueue\Queue\AbstractQueue;
+use FuseSource\Stomp\Exception\StompException;
 
 /**
  * AmqQueue
@@ -83,7 +84,16 @@ class AmqQueue extends AbstractQueue implements AmqQueueInterface
             $this->stompClient->setReadTimeout((int) $options['timeout'], 0);
         }
 
-        $frame = $this->stompClient->readFrame();
+        try {
+            $frame = $this->stompClient->readFrame();
+        } catch (StompException $e) {
+            // Silently ignore unreadable sockets because this happens when you quit the worker
+            if ($e->getMessage() === 'Check failed to determine if the socket is readable') {
+                return;
+            }
+
+            throw $e;
+        }
 
         if ($frame === false) {
             return null;
