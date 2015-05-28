@@ -15,6 +15,8 @@ use Zend\EventManager\EventManagerInterface;
  */
 class AmqWorker extends AbstractWorker
 {
+    protected $connected = false;
+
     /**
      * @param EventManagerInterface $eventManager
      */
@@ -61,5 +63,10 @@ class AmqWorker extends AbstractWorker
         }
 
         $queue->ensureConnection();
+
+        if ($this->connected === false) {
+            $queue->subscribe();
+            $this->connected = true;
+        }
     }
 }
