@@ -16,16 +16,6 @@ use Zend\EventManager\EventManagerInterface;
 class AmqWorker extends AbstractWorker
 {
     /**
-     * @param EventManagerInterface $eventManager
-     */
-    public function __construct(EventManagerInterface $eventManager)
-    {
-        parent::__construct($eventManager);
-
-        $this->eventManager->attach(WorkerEvent::EVENT_BOOTSTRAP, [$this, 'connect']);
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function processJob(JobInterface $job, QueueInterface $queue)
@@ -48,19 +38,5 @@ class AmqWorker extends AbstractWorker
             // Do nothing, the job will be reinserted automatically for another try
             return WorkerEvent::JOB_STATUS_FAILURE_RECOVERABLE;
         }
-    }
-
-    /**
-     * Connect to the Active MQ server when starting the queue process
-     */
-    public function connect(WorkerEvent $event)
-    {
-        $queue = $event->getQueue();
-        if (!$queue instanceof AmqQueueInterface) {
-            throw new Exception\InvalidQueueException;
-        }
-
-        $queue->ensureConnection();
-        $queue->subscribe();
     }
 }

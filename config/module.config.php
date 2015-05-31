@@ -35,6 +35,18 @@ return [
     'slm_queue' => [
         'active_mq' => [
             'broker_url' => '',
-        ]
+        ],
+        'worker_strategies' => [
+            'queues' => [
+                'default' => [
+                    'SlmQueueAmq\Strategy\SubscribeStrategy',
+                ],
+            ]
+        ],
+        'strategy_manager' => [
+            'invokables' => [
+                'SlmQueueAmq\Strategy\SubscribeStrategy' => 'SlmQueueAmq\Strategy\SubscribeStrategy',
+            ],
+        ],
     ]
 ];
