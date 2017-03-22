@@ -27,7 +27,7 @@ class AmqWorkerControllerFactory implements FactoryInterface
     {
         // Grab parent container if available (ZF2)
         if (method_exists($container, 'getServiceLocator')) {
-            $container = $container->getServiceLocator();
+            $container = $container->getServiceLocator() ?: $container;
         }
 
         $worker  = $container->get('SlmQueueAmq\Worker\AmqWorker');
