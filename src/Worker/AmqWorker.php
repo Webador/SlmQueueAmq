@@ -6,9 +6,8 @@ use Exception;
 use SlmQueue\Job\JobInterface;
 use SlmQueue\Queue\QueueInterface;
 use SlmQueue\Worker\AbstractWorker;
-use SlmQueue\Worker\WorkerEvent;
+use SlmQueue\Worker\Event\ProcessJobEvent;
 use SlmQueueAmq\Queue\AmqQueueInterface;
-use Zend\EventManager\EventManagerInterface;
 
 /**
  * Worker for Amq
@@ -21,7 +20,7 @@ class AmqWorker extends AbstractWorker
     public function processJob(JobInterface $job, QueueInterface $queue)
     {
         if (!$queue instanceof AmqQueueInterface) {
-            return WorkerEvent::JOB_STATUS_UNKNOWN;
+            return ProcessJobEvent::JOB_STATUS_UNKNOWN;
         }
 
         /**
@@ -33,10 +32,10 @@ class AmqWorker extends AbstractWorker
             $job->execute();
             $queue->delete($job);
 
-            return WorkerEvent::JOB_STATUS_SUCCESS;
+            return ProcessJobEvent::JOB_STATUS_SUCCESS;
         } catch (Exception $exception) {
             // Do nothing, the job will be reinserted automatically for another try
-            return WorkerEvent::JOB_STATUS_FAILURE_RECOVERABLE;
+            return ProcessJobEvent::JOB_STATUS_FAILURE_RECOVERABLE;
         }
     }
 }

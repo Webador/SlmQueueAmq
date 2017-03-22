@@ -11,4 +11,7 @@ interface AmqQueueInterface extends QueueInterface
     const REPEAT     = 'AMQ_SCHEDULED_REPEAT';
     const CRON       = 'AMQ_SCHEDULED_CRON';
     const PERSISTENT = 'persistent';
+
+    public function ensureConnection();
+    public function subscribe();
 }

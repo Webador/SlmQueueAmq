@@ -3,7 +3,8 @@
 namespace SlmQueueAmq\Strategy;
 
 use SlmQueue\Strategy\AbstractStrategy;
-use SlmQueue\Worker\WorkerEvent;
+use SlmQueue\Worker\Event\BootstrapEvent;
+use SlmQueue\Worker\Event\WorkerEventInterface;
 use SlmQueueAmq\Queue\AmqQueueInterface;
 use SlmQueueAmq\Worker\Exception\InvalidQueueException;
 use Zend\EventManager\EventManagerInterface;
@@ -18,7 +19,7 @@ class SubscribeStrategy extends AbstractStrategy
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
-            WorkerEvent::EVENT_BOOTSTRAP,
+            WorkerEventInterface::EVENT_BOOTSTRAP,
             array($this, 'connectAndSubscribe'),
             $priority
         );
@@ -27,13 +28,13 @@ class SubscribeStrategy extends AbstractStrategy
     /**
      * Connect and subscribe to the AMQ queue
      *
-     * @param WorkerEvent $event
+     * @param BootstrapEvent $event
      */
-    public function connectAndSubscribe(WorkerEvent $event)
+    public function connectAndSubscribe(BootstrapEvent $event)
     {
         $queue = $event->getQueue();
         if (!$queue instanceof AmqQueueInterface) {
-            throw new InvalidQueueException;
+            throw InvalidQueueException::fromInvalidQueue($queue);
         }
 
         $queue->ensureConnection();
