@@ -4,7 +4,8 @@ namespace SlmQueueAmqTest\Controller;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use SlmQueueAmq\Controller\AmqWorkerController;
-use Zend\Mvc\Router\RouteMatch;
+use Zend\Mvc\Router\RouteMatch as DeprecatedRouteMatch;
+use Zend\Router\RouteMatch;
 
 class AmqWorkerControllerTest extends TestCase
 {
@@ -21,7 +22,8 @@ class AmqWorkerControllerTest extends TestCase
 
         $controller    = new AmqWorkerController($worker, $pluginManager);
 
-        $routeMatch = new RouteMatch(array('queue' => 'newsletter'));
+        $routeMatch = $this->createRouteMatch();
+        $routeMatch->setParam('queue', 'newsletter');
         $controller->getEvent()->setRouteMatch($routeMatch);
 
         $worker->expects($this->once())
@@ -32,5 +34,17 @@ class AmqWorkerControllerTest extends TestCase
         $result = $controller->processAction();
 
         $this->assertStringEndsWith("One state\n", $result);
+    }
+
+    /**
+     * @return DeprecatedRouteMatch|RouteMatch
+     */
+    private function createRouteMatch()
+    {
+        if (class_exists(DeprecatedRouteMatch::class)) {
+            return new DeprecatedRouteMatch([]);
+        }
+
+        return new RouteMatch([]);
     }
 }
