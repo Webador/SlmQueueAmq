@@ -18,7 +18,13 @@ class AmqQueueFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator, $name = '', $requestedName = '')
     {
-        return $this($serviceLocator, AmqQueue::class);
+        $container = $serviceLocator;
+        // Grab parent container if available (ZF2)
+        if (method_exists($container, 'getServiceLocator')) {
+            $container = $container->getServiceLocator() ?: $container;
+        }
+        
+        return $this($container, AmqQueue::class);
     }
 
     /**
@@ -26,11 +32,6 @@ class AmqQueueFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        // Grab parent container if available (ZF2)
-        if (method_exists($container, 'getServiceLocator')) {
-            $container = $container->getServiceLocator() ?: $container;
-        }
-
         $config           = $container->get('Config')['slm_queue']['queues'];
         $queueConfig      = array_key_exists($requestedName, $config) ? $config[$requestedName] : [];
         $queueOptions     = new QueueOptions($queueConfig);
