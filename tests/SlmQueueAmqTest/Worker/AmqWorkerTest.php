@@ -3,6 +3,7 @@
 namespace SlmQueueAmqTest\Worker;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use SlmQueue\Worker\Event\ProcessJobEvent;
 use SlmQueue\Worker\WorkerEvent;
 use SlmQueueAmq\Worker\AmqWorker;
 
@@ -24,7 +25,7 @@ class AmqWorkerTest extends TestCase
         $job   = $this->getMock('SlmQueue\Job\JobInterface');
 
         $status = $this->worker->processJob($job, $queue);
-        $this->assertEquals(WorkerEvent::JOB_STATUS_UNKNOWN, $status);
+        $this->assertEquals(ProcessJobEvent::JOB_STATUS_UNKNOWN, $status);
     }
 
     public function testWorkerEstablishesConnectionOnProcessing()
@@ -32,7 +33,6 @@ class AmqWorkerTest extends TestCase
         $this->markTestSkipped('Skipped as processing queue keeps polling');
 
         $queue = $this->getMock('SlmQueueAmq\Queue\AmqQueueInterface');
-        $job   = $this->getMock('SlmQueue\Job\JobInterface');
 
         $queue->expects($this->once())
               ->method('ensureConnection');
@@ -53,7 +53,7 @@ class AmqWorkerTest extends TestCase
               ->with($job);
 
         $status = $this->worker->processJob($job, $queue);
-        $this->assertEquals(WorkerEvent::JOB_STATUS_SUCCESS, $status);
+        $this->assertEquals(ProcessJobEvent::JOB_STATUS_SUCCESS, $status);
     }
 
     public function testDoNotDeleteJobOnFailure()
@@ -69,6 +69,6 @@ class AmqWorkerTest extends TestCase
               ->method('delete');
 
         $status = $this->worker->processJob($job, $queue);
-        $this->assertEquals(WorkerEvent::JOB_STATUS_FAILURE_RECOVERABLE, $status);
+        $this->assertEquals(ProcessJobEvent::JOB_STATUS_FAILURE_RECOVERABLE, $status);
     }
 }

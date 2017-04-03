@@ -19,6 +19,7 @@
 
 namespace SlmQueueAmqTest\Util;
 
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 
@@ -49,9 +50,12 @@ class ServiceManagerFactory
      */
     public static function getServiceManager()
     {
-        $serviceManager = new ServiceManager(new ServiceManagerConfig(
-            isset(static::$config['service_manager']) ? static::$config['service_manager'] : array()
-        ));
+        $config = new Config(isset(static::$config['service_manager']) ? static::$config['service_manager'] : array());
+        $mvcConfig = new ServiceManagerConfig();
+        $serviceManager = new ServiceManager();
+        $mvcConfig->configureServiceManager($serviceManager);
+        $config->configureServiceManager($serviceManager);
+
         $serviceManager->setService('ApplicationConfig', static::$config);
         $serviceManager->setFactory('ServiceListener', 'Zend\Mvc\Service\ServiceListenerFactory');
 
