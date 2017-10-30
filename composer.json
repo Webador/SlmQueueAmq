@@ -36,6 +36,9 @@
     "extra": {
         "branch-alias": {
             "dev-master": "0.5.x-dev"
+        },
+        "zf": {
+            "module": "SlmQueueAmq\\Module"
         }
     },
     "autoload": {
