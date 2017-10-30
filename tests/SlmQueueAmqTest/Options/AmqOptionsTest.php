@@ -1,6 +1,6 @@
 <?php
 
-namespace SlmQueuedAmqTest\Options;
+namespace SlmQueueAmqTest\Options;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use SlmQueueAmqTest\Util\ServiceManagerFactory;
@@ -21,7 +21,7 @@ class AmqOptionsTest extends TestCase
 
     public function testCreatedAmqOptions()
     {
-        /** @var $amqOptions \SlmQueuedAmq\Options\AmqOptions */
+        /** @var $amqOptions \SlmQueueAmq\Options\AmqOptions */
         $amqOptions = $this->serviceManager->get('SlmQueueAmq\Options\AmqOptions');
 
         $this->assertInstanceOf('SlmQueueAmq\Options\AmqOptions', $amqOptions);
